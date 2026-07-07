@@ -1,0 +1,70 @@
+﻿@page
+@model Projekt_zaliczeniowy.Pages.GeneratorModel
+@{
+    ViewData["Title"] = "Generator Zadań";
+}
+<div class="container my-5">
+    <div class="row mb-4 text-center">
+        <div class="col-md-8 mx-auto">
+            <h1 class="display-5 fw-bold text-primary">Generator Zadań Rachunkowy</h1>
+            
+            <div class="d-flex justify-content-center gap-3 my-3">
+                <div class="p-3 bg-success text-white rounded-3 shadow-sm text-center" style="min-width: 150px;">
+                    <small class="d-block text-uppercase fw-bold opacity-75">Aktualna seria</small>
+                    <span class="display-6 fw-bold">5</span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5 text-center">
+                    
+                   
+
+                    <div class="d-flex align-items-center justify-content-center text-dark fw-bold mb-5" style="font-size: 3rem; gap: 15px;">
+    
+                        <div>@Model.liczba</div>
+    
+                        <div class="text-primary">&middot;</div>
+    
+                        <div class="d-inline-flex flex-column align-items-center" style="line-height: 1;">
+                            <div class="pb-2">@Model.licznik</div>
+                            <div class="w-100 border-bottom border-3 border-dark"></div>
+                            <div class="pt-2">@Model.mianownik</div>
+                        </div>
+
+                        <div class="text-muted">=</div>
+                    </div>
+
+                    <form method="post">
+                        <input type="hidden" asp-for="liczba" />
+                        <input type="hidden" asp-for="licznik" />
+                        <input type="hidden" asp-for="mianownik" />
+
+                        <div class="mb-4">
+                            <label for="odpowiedz_uzytkownika" class="form-label text-muted">Wpisz swój wynik poniżej:</label>
+                            <input type="text" asp-for="odpowiedz_uzytkownika" class="form-control form-control-lg text-center fw-bold border-2" placeholder="Twój wynik" style="font-size: 1.5rem;" autocomplete="off" autofocus>
+                            </div>
+    
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-3 fw-bold py-3 shadow">Sprawdź odpowiedź</button>
+                            </div>
+                        </form>
+                        @if (!string.IsNullOrEmpty(Model.komunikat_zwrotny))
+                        {
+                            <div class="alert alert-info text-center mt-4 rounded-3 shadow-sm" role="alert">
+                                @Model.komunikat_zwrotny
+                            </div>
+                        }
+
+                </div>
+            </div>
+            
+           
+        </div>
+    </div>
+</div>
