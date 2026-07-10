@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace Projekt_zaliczeniowy
 {
     public class Program
@@ -8,6 +10,18 @@ namespace Projekt_zaliczeniowy
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            
+
+            
+            //logowanie na ciasteczkach 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+                {
+                    
+                    
+                    options.LoginPath = "/Logowanie";
+                });
+
 
             var app = builder.Build();
 
@@ -23,11 +37,16 @@ namespace Projekt_zaliczeniowy
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication(); //sprawdzanie kim jest osoba logujaca 
+            app.UseAuthorization(); //sprawdzamy czy ma dostep
+
+            
+
+
+            
 
             app.MapStaticAssets();
-            app.MapRazorPages()
-               .WithStaticAssets();
+            app.MapRazorPages().WithStaticAssets(); //logowanie 
 
             app.Run();
         }

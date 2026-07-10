@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.Design.Serialization;
 
 namespace Projekt_zaliczeniowy.Pages
 {
+    [Authorize]
     public class GeneratorModel : PageModel
     {
         [BindProperty]
