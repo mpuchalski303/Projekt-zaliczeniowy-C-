@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-center gap-3 my-3">
                 <div class="p-3 bg-success text-white rounded-3 shadow-sm text-center" style="min-width: 150px;">
                     <small class="d-block text-uppercase fw-bold opacity-75">Aktualna seria</small>
-                    <span class="display-6 fw-bold">5</span>
+                    <span class="display-6 fw-bold">@Model.seria</span>
                 </div>
                 
             </div>
@@ -26,24 +26,68 @@
                    
 
                     <div class="d-flex align-items-center justify-content-center text-dark fw-bold mb-5" style="font-size: 3rem; gap: 15px;">
+                        @if (Model.typ_zadania == "ulamki1")
+                        {
+                            <div>@Model.liczba1</div>
     
-                        <div>@Model.liczba</div>
-    
-                        <div class="text-primary">&middot;</div>
-    
-                        <div class="d-inline-flex flex-column align-items-center" style="line-height: 1;">
-                            <div class="pb-2">@Model.licznik</div>
-                            <div class="w-100 border-bottom border-3 border-dark"></div>
-                            <div class="pt-2">@Model.mianownik</div>
-                        </div>
+                            <div class="text-primary">&middot;</div>
+        
+                            <div class="d-inline-flex flex-column align-items-center" style="line-height: 1;">
+                                <div class="pb-2">@Model.liczba2</div>
+                                <div class="w-100 border-bottom border-3 border-dark"></div>
+                                <div class="pt-2">@Model.liczba3</div>
+                            </div>
 
-                        <div class="text-muted">=</div>
+                            <div class="text-muted">=</div>
+                            
+                        }
+                        else if (Model.typ_zadania == "ulamki2")
+                        {
+                            
+                            
+                            <div class="d-inline-flex flex-column align-items-center" style="line-height: 1;">
+                                <div class="pb-2">@Model.liczba2</div>
+                                <div class="w-100 border-bottom border-3 border-dark"></div>
+                                <div class="pt-2">@Model.liczba3</div>
+                            </div>
+                            <div class="text-primary">&middot;</div>
+                            
+                            <div>@Model.liczba1</div>
+                            
+
+                            <div class="text-muted">=</div>
+                        }
+                        else if (Model.typ_zadania == "pierwiastki")
+                        {
+                            <div class="d-flex align-items-center">
+                                <span class="text-primary display-3 fw-light" style="margin-right: -2px;">&radic;</span>
+                                <span class="border-top border-3 border-dark px-2 display-4 fw-bold" style="padding-top: 4px;">
+                                    @Model.liczba1
+                                </span>
+                            </div>
+                            <div class="text-muted">=</div>
+                        }
+                        else if (Model.typ_zadania == "potegi")
+                        {
+                        <div class="d-flex align-items-start justify-content-center">
+                            <span>@Model.liczba1</span>
+                            <sup class="text-primary fw-bold" style="font-size: 1.8rem; margin-left: 2px; margin-top: -5px;">
+                                @Model.liczba2
+                            </sup>
+                        </div>
+    
+                        <div class="text-muted ms-2">=</div>
+                        }
+
                     </div>
 
                     <form method="post">
-                        <input type="hidden" asp-for="liczba" />
-                        <input type="hidden" asp-for="licznik" />
-                        <input type="hidden" asp-for="mianownik" />
+                        <input type="hidden" asp-for="liczba1" />
+                        <input type="hidden" asp-for="liczba2" />
+                        <input type="hidden" asp-for="liczba3" />
+                        <input type="hidden" asp-for="liczba4" />
+                        <input type="hidden" asp-for="seria" />
+                        <input type="hidden" asp-for="typ_zadania" />
 
                         <div class="mb-4">
                             <label for="odpowiedz_uzytkownika" class="form-label text-muted">Wpisz swój wynik poniżej:</label>
