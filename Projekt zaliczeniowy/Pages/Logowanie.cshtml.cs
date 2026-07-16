@@ -2,13 +2,21 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Security.Claims;
 
 namespace Projekt_zaliczeniowy.Pages
 {
+
     public class LogowanieModel : PageModel
     {
+        private readonly AppDbContext _context;
+
+        public LogowanieModel(AppDbContext context)
+        {
+            _context = context;
+        }
         [BindProperty]
         public string login { get; set; }
         [BindProperty]
@@ -22,42 +30,31 @@ namespace Projekt_zaliczeniowy.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            
-            if (login == "student" && haslo == "maslo123")
+            var gracz = _context.wyniki.FirstOrDefault(x => x.Nazwa_uzytkownika == login && x.Haslo == haslo);
+            if (gracz != null)
             {
                 
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, login),
-                    new Claim(ClaimTypes.Role, "User")
+                    
+                    new Claim(ClaimTypes.Name, gracz.Nazwa_uzytkownika)
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                
-                var authProperties = new AuthenticationProperties
-                {
-                   
-                    IsPersistent = false
-                };
 
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties
-                );
-
-
+               
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
                 
-                return RedirectToPage("/Filmy");
+                return RedirectToPage("/Generator");
             }
 
-            
+
+
             blad_logowania = "Niepoprawny login lub hasło!";
             return Page();
         }
+
     }
 
     

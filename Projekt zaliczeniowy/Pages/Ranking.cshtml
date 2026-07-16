@@ -1,0 +1,35 @@
+﻿@page
+@model Projekt_zaliczeniowy.Pages.RankingModel
+@{
+    ViewData["Title"] = "Ranking Graczy";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center mb-4">Ranking</h2>
+
+    <table class="table table-striped table-hover border text-center">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col" style="width: 15%">Pozycja</th>
+                <th scope="col">Nazwa użytkownika</th>
+                <th scope="col" style="width: 30%">Najlepszy wynik</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int pozycja = 1;
+            }
+            @foreach (var gracz in Model.ListaGraczy)
+            {
+                <tr>
+                    <th scope="row">@pozycja</th>
+                    <td>@gracz.Nazwa_uzytkownika</td>
+                    <td class="fw-bold text-success">@gracz.Maksymalna_seria</td>
+                </tr>
+                pozycja++; 
+            }
+        </tbody>
+    </table>
+
+    
+</div>

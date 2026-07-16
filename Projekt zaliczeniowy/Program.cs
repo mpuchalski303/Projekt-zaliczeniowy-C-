@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Projekt_zaliczeniowy
 {
@@ -11,9 +13,10 @@ namespace Projekt_zaliczeniowy
             // Add services to the container.
             builder.Services.AddRazorPages();
 
-            
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));//rejestracja bazy danych 
 
-            
+
+
             //logowanie na ciasteczkach 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
                 {

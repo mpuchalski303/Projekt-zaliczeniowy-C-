@@ -2,12 +2,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.Design.Serialization;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Projekt_zaliczeniowy.Pages
 {
     [Authorize]
     public class GeneratorModel : PageModel
     {
+        private readonly AppDbContext _context;
+
+        public GeneratorModel(AppDbContext context)
+        {
+            _context = context;
+        }
         [BindProperty]
         public int liczba1 { get; set; }
 
@@ -25,9 +33,11 @@ namespace Projekt_zaliczeniowy.Pages
         public int seria { get; set; }
         [BindProperty]
         public string typ_zadania { get; set; } = string.Empty;
-
+        [BindProperty]
+        public int najlepszy_wynik_uzytkownika { get; set; }
         public string komunikat_zwrotny { get; set; } = string.Empty;
 
+        
 
 
         public void OnGet()
@@ -35,6 +45,7 @@ namespace Projekt_zaliczeniowy.Pages
             Losuj_Zadanie();
             seria = 0;
 
+            WczytajNajlepszyWynik();
         }
         public void OnPost()
         {
@@ -55,6 +66,8 @@ namespace Projekt_zaliczeniowy.Pages
 
             Losuj_Zadanie();
             ModelState.Clear();//zeby zapomniec o 5 2 3
+
+            WczytajNajlepszyWynik();
         }
         private void Losuj_Zadanie()
         {
@@ -116,7 +129,9 @@ namespace Projekt_zaliczeniowy.Pages
             else
             {
                 komunikat_zwrotny = "Źle";
+                SprawdzIZapiszRekord();
                 seria = 0;
+
             }
             odpowiedz_uzytkownika = "";
         }
@@ -131,8 +146,9 @@ namespace Projekt_zaliczeniowy.Pages
             else
             {
                 komunikat_zwrotny = "Źle";
+                SprawdzIZapiszRekord();
                 seria = 0;
-
+                
             }
             odpowiedz_uzytkownika = "";
         }
@@ -148,10 +164,48 @@ namespace Projekt_zaliczeniowy.Pages
             else
             {
                 komunikat_zwrotny = "Źle";
+                SprawdzIZapiszRekord();
                 seria = 0;
-
+                
             }
             odpowiedz_uzytkownika = "";
         }
+        private void WczytajNajlepszyWynik()
+        {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
+
+                
+                var rekord = _context.wyniki.FirstOrDefault(x => x.Nazwa_uzytkownika == nazwa_uzytkownika);
+                if (rekord != null)
+                {
+                    najlepszy_wynik_uzytkownika = rekord.Maksymalna_seria;
+                }
+            }
+        }
+
+
+        private void SprawdzIZapiszRekord()
+        {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
+
+                
+                var rekord_w_bazie = _context.wyniki.FirstOrDefault(x => x.Nazwa_uzytkownika == nazwa_uzytkownika);
+                if (rekord_w_bazie != null)
+                {
+                    
+                    if (seria > rekord_w_bazie.Maksymalna_seria)
+                    {
+                        rekord_w_bazie.Maksymalna_seria = seria;
+                    }
+                    _context.SaveChanges();
+                }
+            }
+        }
+
     }
+
 }
