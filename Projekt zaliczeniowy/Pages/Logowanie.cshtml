@@ -12,22 +12,22 @@
                     <h2 class="fw-bold text-center text-primary mb-4">Logowanie</h2>
                     
 
-                    @if (!string.IsNullOrEmpty(Model.blad_logowania))
+                    @if (!string.IsNullOrEmpty(Model.BladLogowania))
                     {
                         <div class="alert alert-danger text-center small rounded-3 py-2" role="alert">
-                            @Model.blad_logowania
+                            @Model.BladLogowania
                         </div>
                     }
 
                     <form method="post">
                         <div class="mb-3">
                             <label class="form-label text-muted small fw-bold">Login</label>
-                            <input type="text" asp-for="login" class="form-control border-2" required autocomplete="off" />
+                            <input type="text" asp-for="Login" class="form-control border-2" required autocomplete="off" />
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label text-muted small fw-bold">Hasło</label>
-                            <input type="password" asp-for="haslo" class="form-control border-2" required />
+                            <input type="password" asp-for="Haslo" class="form-control border-2" required />
                         </div>
 
                         <div class="d-grid">

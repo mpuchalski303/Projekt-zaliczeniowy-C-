@@ -12,12 +12,13 @@ namespace Projekt_zaliczeniowy.Pages
             _context = context;
         }
 
-        public List<Najlepszy_wynik> ListaGraczy { get; set; } = new List<Najlepszy_wynik>();
+        public List<Wynik> ListaGraczy { get; set; } = new List<Wynik>();
 
         public async Task OnGetAsync()
         {
-            ListaGraczy = await _context.wyniki
-                .OrderByDescending(x => x.Maksymalna_seria)
+            ListaGraczy = await _context.Wyniki
+                .Include(w => w.Uzytkownik)
+                .OrderByDescending(w => w.MaksymalnaSeria)
                 .ToListAsync();
         }
     }

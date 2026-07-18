@@ -117,11 +117,9 @@ namespace Projekt_zaliczeniowy.Pages
         }
         private void Zadanie_ulamki()
         {
-            int odp1 = liczba1 * liczba2;
-            int odp2 = liczba3;
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.WyliczOdpowiedzUlamki(liczba1, liczba2, liczba3);
             //Console.WriteLine(odp1.ToString() + "/" + odp2.ToString());
-            if (odpowiedz_uzytkownika == odp1.ToString() + "/" + odp2.ToString())
-
+            if (odpowiedz_uzytkownika == poprawna_odpowiedz)
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
@@ -138,8 +136,11 @@ namespace Projekt_zaliczeniowy.Pages
         private void Zadanie_pierwiastki()
         {
 
-            if (odpowiedz_uzytkownika == liczba4.ToString())
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.WyliczOdpowiedzPierwiastki(liczba4);
+            if (odpowiedz_uzytkownika == poprawna_odpowiedz)
             {
+
+            
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
             }
@@ -154,9 +155,9 @@ namespace Projekt_zaliczeniowy.Pages
         }
         private void Zadanie_potegi()
         {
-            int odp = (int)Math.Pow(liczba1, liczba2);
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.WyliczOdpowiedzPotegi(liczba1, liczba2);
 
-            if (odpowiedz_uzytkownika == odp.ToString())
+            if (odpowiedz_uzytkownika == poprawna_odpowiedz)
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
@@ -176,11 +177,11 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
 
-                
-                var rekord = _context.wyniki.FirstOrDefault(x => x.Nazwa_uzytkownika == nazwa_uzytkownika);
+                var rekord = _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
+
                 if (rekord != null)
                 {
-                    najlepszy_wynik_uzytkownika = rekord.Maksymalna_seria;
+                    najlepszy_wynik_uzytkownika = rekord.MaksymalnaSeria;
                 }
             }
         }
@@ -192,14 +193,15 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
 
-                
-                var rekord_w_bazie = _context.wyniki.FirstOrDefault(x => x.Nazwa_uzytkownika == nazwa_uzytkownika);
+                var rekord_w_bazie = _context.Wyniki
+                    .Include(w => w.Uzytkownik)
+                    .FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
+
                 if (rekord_w_bazie != null)
                 {
-                    
-                    if (seria > rekord_w_bazie.Maksymalna_seria)
+                    if (seria > rekord_w_bazie.MaksymalnaSeria)
                     {
-                        rekord_w_bazie.Maksymalna_seria = seria;
+                        rekord_w_bazie.MaksymalnaSeria = seria;
                     }
                     _context.SaveChanges();
                 }

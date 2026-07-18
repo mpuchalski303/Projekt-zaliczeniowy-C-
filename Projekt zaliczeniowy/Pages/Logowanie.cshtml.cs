@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Projekt_zaliczeniowy.Pages
 {
@@ -12,17 +13,18 @@ namespace Projekt_zaliczeniowy.Pages
     public class LogowanieModel : PageModel
     {
         private readonly AppDbContext _context;
+        private readonly PasswordHasher<Uzytkownik> _hasher = new();
 
         public LogowanieModel(AppDbContext context)
         {
             _context = context;
         }
         [BindProperty]
-        public string login { get; set; }
+        public string Login { get; set; } = string.Empty;
         [BindProperty]
-        public string haslo { get; set; }
+        public string Haslo { get; set; } = string.Empty;
 
-        public string blad_logowania { get; set; }
+        public string BladLogowania { get; set; } = string.Empty;
 
         public void OnGet()
         {
@@ -30,15 +32,17 @@ namespace Projekt_zaliczeniowy.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            var gracz = _context.wyniki.FirstOrDefault(x => x.Nazwa_uzytkownika == login && x.Haslo == haslo);
-            if (gracz != null)
+            var uzytkownik = await _context.Uzytkownicy.FirstOrDefaultAsync(u => u.Login == Login);
+
+            bool poprawneHaslo = uzytkownik != null &&
+                _hasher.VerifyHashedPassword(uzytkownik, uzytkownik.HasloHash, Haslo) == PasswordVerificationResult.Success;
+
+            if (uzytkownik != null && poprawneHaslo)
             {
-                
                 var claims = new List<Claim>
-                {
-                    
-                    new Claim(ClaimTypes.Name, gracz.Nazwa_uzytkownika)
-                };
+            {
+                new Claim(ClaimTypes.Name, uzytkownik.Login)
+            };  
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -51,7 +55,7 @@ namespace Projekt_zaliczeniowy.Pages
 
 
 
-            blad_logowania = "Niepoprawny login lub hasło!";
+            BladLogowania = "Niepoprawny login lub hasło!";
             return Page();
         }
 

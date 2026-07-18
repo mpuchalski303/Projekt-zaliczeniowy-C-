@@ -8,6 +8,7 @@ namespace Projekt_zaliczeniowy
         {
         }
 
-        public DbSet<Najlepszy_wynik> wyniki { get; set; }
+        public DbSet<Uzytkownik> Uzytkownicy { get; set; }
+        public DbSet<Wynik> Wyniki { get; set; }
     }
 }

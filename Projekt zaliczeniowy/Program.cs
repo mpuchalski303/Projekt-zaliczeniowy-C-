@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -26,8 +27,28 @@ namespace Projekt_zaliczeniowy
                 });
 
 
+
             var app = builder.Build();
 
+
+            using (var scope = app.Services.CreateScope()) //dodanie admina
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                if (!context.Uzytkownicy.Any())
+                {
+                    var hasher = new PasswordHasher<Uzytkownik>();
+
+                    var testowyUzytkownik = new Uzytkownik { Login = "test", CzyAdmin = true };
+                    testowyUzytkownik.HasloHash = hasher.HashPassword(testowyUzytkownik, "test123");
+
+                    context.Uzytkownicy.Add(testowyUzytkownik);
+                    context.SaveChanges();
+
+                    context.Wyniki.Add(new Wynik { Uzytkownik = testowyUzytkownik, MaksymalnaSeria = 0 });
+                    context.SaveChanges();
+                }
+            }
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
