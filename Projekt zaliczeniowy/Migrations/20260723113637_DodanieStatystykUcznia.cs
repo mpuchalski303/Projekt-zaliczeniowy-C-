@@ -5,11 +5,25 @@
 namespace Projekt_zaliczeniowy.Migrations
 {
     /// <inheritdoc />
-    public partial class DodanieCzyAdmin : Migration
+    public partial class DodanieStatystykUcznia : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "StatystykiBledow",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    typ_zadania = table.Column<string>(type: "TEXT", nullable: false),
+                    liczba_bledow = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StatystykiBledow", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Uzytkownicy",
                 columns: table => new
@@ -32,7 +46,9 @@ namespace Projekt_zaliczeniowy.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UzytkownikId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MaksymalnaSeria = table.Column<int>(type: "INTEGER", nullable: false)
+                    MaksymalnaSeria = table.Column<int>(type: "INTEGER", nullable: false),
+                    liczba_prob = table.Column<int>(type: "INTEGER", nullable: false),
+                    liczba_poprawnych = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,6 +71,9 @@ namespace Projekt_zaliczeniowy.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "StatystykiBledow");
+
             migrationBuilder.DropTable(
                 name: "Wyniki");
 

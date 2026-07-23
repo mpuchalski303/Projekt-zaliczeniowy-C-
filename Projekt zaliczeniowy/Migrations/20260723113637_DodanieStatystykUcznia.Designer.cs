@@ -10,14 +10,32 @@ using Projekt_zaliczeniowy;
 namespace Projekt_zaliczeniowy.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260718010336_DodanieCzyAdmin")]
-    partial class DodanieCzyAdmin
+    [Migration("20260723113637_DodanieStatystykUcznia")]
+    partial class DodanieStatystykUcznia
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
+
+            modelBuilder.Entity("Projekt_zaliczeniowy.StatystykaBledow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("liczba_bledow")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("typ_zadania")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StatystykiBledow");
+                });
 
             modelBuilder.Entity("Projekt_zaliczeniowy.Uzytkownik", b =>
                 {
@@ -51,6 +69,12 @@ namespace Projekt_zaliczeniowy.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UzytkownikId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("liczba_poprawnych")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("liczba_prob")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

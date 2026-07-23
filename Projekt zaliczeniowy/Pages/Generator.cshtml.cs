@@ -159,11 +159,14 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
+                Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
                 Zapisz_Rekord();
+                Zapisz_Blad(typ_zadania);
+                Zapisz_Probe(false);
                 seria = 0;
 
             }
@@ -179,11 +182,14 @@ namespace Projekt_zaliczeniowy.Pages
             
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
+                Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
                 Zapisz_Rekord();
+                Zapisz_Blad(typ_zadania);
+                Zapisz_Probe(false);
                 seria = 0;
                 
             }
@@ -197,11 +203,14 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
+                Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
                 Zapisz_Rekord();
+                Zapisz_Blad(typ_zadania);
+                Zapisz_Probe(false);
                 seria = 0;
                 
             }
@@ -215,11 +224,14 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
+                Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
                 Zapisz_Rekord();
+                Zapisz_Blad(typ_zadania);
+                Zapisz_Probe(false);
                 seria = 0;
             }
             odpowiedz_uzytkownika = "";
@@ -234,11 +246,14 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
+                Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
                 Zapisz_Rekord();
+                Zapisz_Blad(typ_zadania);
+                Zapisz_Probe(false);
                 seria = 0;
             }
             odpowiedz_uzytkownika = "";
@@ -275,6 +290,43 @@ namespace Projekt_zaliczeniowy.Pages
                     {
                         rekord_w_bazie.MaksymalnaSeria = seria;
                     }
+                    _context.SaveChanges();
+                }
+            }
+        }
+        private void Zapisz_Blad(string typ_zadania)
+        {
+            var statystyka = _context.StatystykiBledow.FirstOrDefault(s => s.typ_zadania == typ_zadania);
+
+            if (statystyka == null)
+            {
+                statystyka = new StatystykaBledow { typ_zadania = typ_zadania, liczba_bledow = 0 };
+                _context.StatystykiBledow.Add(statystyka);
+            }
+
+            statystyka.liczba_bledow += 1;
+            _context.SaveChanges();
+        }
+
+        private void Zapisz_Probe(bool poprawna)
+        {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
+
+                var rekord = _context.Wyniki
+                    .Include(w => w.Uzytkownik)
+                    .FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
+
+                if (rekord != null)
+                {
+                    rekord.liczba_prob += 1;
+
+                    if (poprawna)
+                    {
+                        rekord.liczba_poprawnych += 1;
+                    }
+
                     _context.SaveChanges();
                 }
             }

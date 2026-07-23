@@ -26,6 +26,7 @@ namespace Projekt_zaliczeniowy.Pages
         public string komunikat { get; set; } = string.Empty;
 
         public List<Uzytkownik> Uczniowie { get; set; } = new();
+        public List<StatystykaBledow> statystyki { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -35,6 +36,7 @@ namespace Projekt_zaliczeniowy.Pages
             }
 
             await wczytaj_uczniow_async();
+            await WczytajStatystykiAsync();
             return Page();
         }
 
@@ -66,12 +68,17 @@ namespace Projekt_zaliczeniowy.Pages
             }
 
             await wczytaj_uczniow_async();
+            await WczytajStatystykiAsync();
             return Page();
         }
 
         private async Task wczytaj_uczniow_async()
         {
-            Uczniowie = await _context.Uzytkownicy.Where(u => !u.CzyAdmin).ToListAsync();
+            Uczniowie = await _context.Uzytkownicy.Include(u => u.Wynik).Where(u => !u.CzyAdmin).ToListAsync();
+        }
+        private async Task WczytajStatystykiAsync()
+        {
+            statystyki = await _context.StatystykiBledow.OrderByDescending(s => s.liczba_bledow).ToListAsync();
         }
 
         private async Task<bool> czy_zalogowany_admin_async()
@@ -81,6 +88,33 @@ namespace Projekt_zaliczeniowy.Pages
 
             var uzytkownik = await _context.Uzytkownicy.FirstOrDefaultAsync(u => u.Login == login);
             return uzytkownik != null && uzytkownik.CzyAdmin;
+        }
+        public string NazwaZadania(string typ_zadania)
+        {
+            if (typ_zadania == "ulamki1" || typ_zadania == "ulamki2")
+            {
+                return "Ułamki";
+            }
+            else if (typ_zadania == "pierwiastki")
+            {
+                return "Pierwiastki";
+            }
+            else if (typ_zadania == "potegi")
+            {
+                return "Potęgi";
+            }
+            else if (typ_zadania == "mnozenie_calkowite")
+            {
+                return "Mnożenie liczb całkowitych";
+            }
+            else if (typ_zadania == "dodawanie_mnozenie_calkowite")
+            {
+                return "Dodawanie i mnożenie liczb całkowitych";
+            }
+            else
+            {
+                return typ_zadania;
+            }
         }
     }
 }

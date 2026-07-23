@@ -10,5 +10,6 @@ namespace Projekt_zaliczeniowy
 
         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
         public DbSet<Wynik> Wyniki { get; set; }
+        public DbSet<StatystykaBledow> StatystykiBledow { get; set; }
     }
 }

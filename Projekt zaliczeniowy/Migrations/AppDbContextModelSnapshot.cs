@@ -16,6 +16,24 @@ namespace Projekt_zaliczeniowy.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
 
+            modelBuilder.Entity("Projekt_zaliczeniowy.StatystykaBledow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("liczba_bledow")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("typ_zadania")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StatystykiBledow");
+                });
+
             modelBuilder.Entity("Projekt_zaliczeniowy.Uzytkownik", b =>
                 {
                     b.Property<int>("Id")
@@ -48,6 +66,12 @@ namespace Projekt_zaliczeniowy.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UzytkownikId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("liczba_poprawnych")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("liczba_prob")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

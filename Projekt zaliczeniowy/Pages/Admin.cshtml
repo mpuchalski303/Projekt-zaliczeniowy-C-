@@ -25,10 +25,54 @@
     </form>
 
     <h4>Lista uczniów</h4>
-    <ul class="list-group">
-        @foreach (var uczen in Model.Uczniowie)
-        {
-            <li class="list-group-item">@uczen.Login</li>
-        }
-    </ul>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Login</th>
+                <th>Liczba prób</th>
+                <th>Poprawne</th>
+                <th>Skuteczność</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var uczen in Model.Uczniowie)
+            {
+                int proby = uczen.Wynik?.liczba_prob ?? 0;
+                int poprawne = uczen.Wynik?.liczba_poprawnych ?? 0;
+                string skutecznosc = proby > 0 ? $"{(poprawne * 100 / proby)}%" : "brak danych";
+
+                <tr>
+                    <td>@uczen.Login</td>
+                    <td>@proby</td>
+                    <td>@poprawne</td>
+                    <td>@skutecznosc</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+<h4 class="mt-5">Najczęstsze błędy uczniów</h4>
+@if (!Model.statystyki.Any())
+{
+    <p class="text-muted">Brak jeszcze zebranych danych.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Typ zadania</th>
+                <th>Liczba błędnych odpowiedzi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pozycja in Model.statystyki)
+            {
+                <tr>
+                    <td>@Model.NazwaZadania(pozycja.typ_zadania)</td>
+                    <td>@pozycja.liczba_bledow</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
