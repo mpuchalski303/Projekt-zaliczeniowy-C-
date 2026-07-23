@@ -37,15 +37,23 @@ namespace Projekt_zaliczeniowy
 
                 if (!context.Uzytkownicy.Any())
                 {
+                    string admin_login = builder.Configuration["AdminCredentials:Login"] ?? "test";
+                    string admin_haslo = builder.Configuration["AdminCredentials:Haslo"] ?? "test123";
+
                     var hasher = new PasswordHasher<Uzytkownik>();
 
-                    var testowyUzytkownik = new Uzytkownik { Login = "test", CzyAdmin = true };
-                    testowyUzytkownik.HasloHash = hasher.HashPassword(testowyUzytkownik, "test123");
+                    var admin = new Uzytkownik
+                    {
+                        Login = admin_login,
+                        CzyAdmin = true
+                    };
 
-                    context.Uzytkownicy.Add(testowyUzytkownik);
+                    admin.HasloHash = hasher.HashPassword(admin, admin_haslo);
+
+                    context.Uzytkownicy.Add(admin);
                     context.SaveChanges();
 
-                    context.Wyniki.Add(new Wynik { Uzytkownik = testowyUzytkownik, MaksymalnaSeria = 0 });
+                    context.Wyniki.Add(new Wynik { Uzytkownik = admin, MaksymalnaSeria = 0 });
                     context.SaveChanges();
                 }
             }
