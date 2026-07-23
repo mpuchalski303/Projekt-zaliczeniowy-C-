@@ -34,8 +34,7 @@ namespace Projekt_zaliczeniowy.Pages
         {
             var uzytkownik = await _context.Uzytkownicy.FirstOrDefaultAsync(u => u.Login == Login);
 
-            bool poprawneHaslo = uzytkownik != null &&
-                _hasher.VerifyHashedPassword(uzytkownik, uzytkownik.HasloHash, Haslo) == PasswordVerificationResult.Success;
+            bool poprawneHaslo = uzytkownik != null && _hasher.VerifyHashedPassword(uzytkownik, uzytkownik.HasloHash, Haslo) == PasswordVerificationResult.Success;
 
             if (uzytkownik != null && poprawneHaslo)
             {

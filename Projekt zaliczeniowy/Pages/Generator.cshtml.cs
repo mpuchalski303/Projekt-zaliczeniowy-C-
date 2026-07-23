@@ -33,8 +33,16 @@ namespace Projekt_zaliczeniowy.Pages
         public int seria { get; set; }
         [BindProperty]
         public string typ_zadania { get; set; } = string.Empty;
-        [BindProperty]
+     
         public int najlepszy_wynik_uzytkownika { get; set; }
+        [BindProperty]
+        public int liczba_calkowita1 { get; set; }
+        [BindProperty]
+        public int liczba_calkowita2 { get; set; }
+        [BindProperty]
+        public int liczba_calkowita3 { get; set; }
+        [BindProperty]
+        public int gdzie_znak { get; set; }
         public string komunikat_zwrotny { get; set; } = string.Empty;
 
         
@@ -61,7 +69,14 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 Zadanie_potegi();
             }
-            
+            else if (typ_zadania == "mnozenie_calkowite")
+            {
+                Zadanie_mnozenie_calkowite();
+            }
+            else if (typ_zadania == "dodawanie_mnozenie_calkowite")
+            {
+                Zadanie_dodawanie_mnozenie_calkowite();
+            }
 
 
             Losuj_Zadanie();
@@ -72,7 +87,7 @@ namespace Projekt_zaliczeniowy.Pages
         private void Losuj_Zadanie()
         {
 
-            int los = Random.Shared.Next(4);
+            int los = Random.Shared.Next(6);
             if (los == 0)
             {
                 liczba1 = Random.Shared.Next(2, 10);
@@ -111,6 +126,27 @@ namespace Projekt_zaliczeniowy.Pages
                 typ_zadania = "potegi";
 
 
+            }
+            else if (los == 4)
+            {
+                typ_zadania = "mnozenie_calkowite";
+                liczba_calkowita1 = Random.Shared.Next(-10, 10);
+                liczba_calkowita2 = Random.Shared.Next(-10, 10);
+
+                if (liczba_calkowita1 == 0) liczba_calkowita1 = 1;
+                if (liczba_calkowita2 == 0) liczba_calkowita2 = 1;
+            }
+            else if(los == 5)
+            {
+                typ_zadania = "dodawanie_mnozenie_calkowite";
+                liczba_calkowita1 = Random.Shared.Next(-8, 8);
+                liczba_calkowita2 = Random.Shared.Next(-8, 8);
+                liczba_calkowita3 = Random.Shared.Next(-8, 8);
+                gdzie_znak = Random.Shared.Next(1, 5);
+
+                if (liczba_calkowita1 == 0) liczba_calkowita1 = 1;
+                if (liczba_calkowita2 == 0) liczba_calkowita2 = 1;
+                if (liczba_calkowita3 == 0) liczba_calkowita3 = 1;
             }
 
 
@@ -168,6 +204,42 @@ namespace Projekt_zaliczeniowy.Pages
                 Zapisz_Rekord();
                 seria = 0;
                 
+            }
+            odpowiedz_uzytkownika = "";
+        }
+        private void Zadanie_mnozenie_calkowite()
+        {
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Mnozenie_odp(liczba_calkowita1, liczba_calkowita2);
+
+            if (odpowiedz_uzytkownika == poprawna_odpowiedz)
+            {
+                komunikat_zwrotny = "Dobrze";
+                seria += 1;
+            }
+            else
+            {
+                komunikat_zwrotny = "Źle";
+                Zapisz_Rekord();
+                seria = 0;
+            }
+            odpowiedz_uzytkownika = "";
+        }
+
+        private void Zadanie_dodawanie_mnozenie_calkowite()
+        {
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Dodawanie_mnozenie_odp(
+                liczba_calkowita1, liczba_calkowita2, liczba_calkowita3, gdzie_znak);
+
+            if (odpowiedz_uzytkownika == poprawna_odpowiedz)
+            {
+                komunikat_zwrotny = "Dobrze";
+                seria += 1;
+            }
+            else
+            {
+                komunikat_zwrotny = "Źle";
+                Zapisz_Rekord();
+                seria = 0;
             }
             odpowiedz_uzytkownika = "";
         }

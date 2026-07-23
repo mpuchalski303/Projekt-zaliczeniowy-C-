@@ -78,6 +78,39 @@
     
                         <div class="text-muted ms-2">=</div>
                         }
+                        else if (Model.typ_zadania == "mnozenie_calkowite")
+                        {
+                            string liczba1Wyswietlana = Model.liczba_calkowita1 < 0 ? $"({Model.liczba_calkowita1})" : Model.liczba_calkowita1.ToString();
+                            string liczba2Wyswietlana = Model.liczba_calkowita2 < 0 ? $"({Model.liczba_calkowita2})" : Model.liczba_calkowita2.ToString();
+                            <p> @liczba1Wyswietlana × @liczba2Wyswietlana</p>
+                        }
+                        else if (Model.typ_zadania == "dodawanie_mnozenie_calkowite")
+                        {
+                            string liczba1Wyswietlana = Model.liczba_calkowita1 < 0 ? $"({Model.liczba_calkowita1})" : Model.liczba_calkowita1.ToString();
+                            string liczba2Wyswietlana = Model.liczba_calkowita2 < 0 ? $"({Model.liczba_calkowita2})" : Model.liczba_calkowita2.ToString();
+                            string liczba3Wyswietlana = Model.liczba_calkowita3 < 0 ? $"({Model.liczba_calkowita3})" : Model.liczba_calkowita3.ToString();
+
+                            string wzor = "";
+
+                            if (Model.gdzie_znak == 1)
+                            {
+                                wzor = $"{liczba1Wyswietlana} - {liczba2Wyswietlana} × {liczba3Wyswietlana}";
+                            }
+                            else if (Model.gdzie_znak == 2)
+                            {
+                                wzor = $"{liczba1Wyswietlana} + {liczba2Wyswietlana} × {liczba3Wyswietlana}";
+                            }
+                            else if (Model.gdzie_znak == 3)
+                            {
+                                wzor = $"{liczba1Wyswietlana} × {liczba2Wyswietlana} + {liczba3Wyswietlana}";
+                            }
+                            else if (Model.gdzie_znak == 4)
+                            {
+                                wzor = $"{liczba1Wyswietlana} × {liczba2Wyswietlana} - {liczba3Wyswietlana}";
+                            }
+
+                            <p>@wzor</p>
+                        }
 
                     </div>
 
@@ -88,6 +121,10 @@
                         <input type="hidden" asp-for="liczba4" />
                         <input type="hidden" asp-for="seria" />
                         <input type="hidden" asp-for="typ_zadania" />
+                        <input type="hidden" asp-for="liczba_calkowita1" />
+                        <input type="hidden" asp-for="liczba_calkowita2" />
+                        <input type="hidden" asp-for="liczba_calkowita3" />
+                        <input type="hidden" asp-for="gdzie_znak" />
 
                         <div class="mb-4">
                             <label for="odpowiedz_uzytkownika" class="form-label text-muted">Wpisz swój wynik poniżej:</label>

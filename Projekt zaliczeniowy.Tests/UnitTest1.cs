@@ -25,5 +25,19 @@ namespace Projekt_zaliczeniowy.Tests
             string wynik = SprawdzanieOdpowiedzi.Potegi_odp(2, 3);
             Assert.Equal("8", wynik);
         }
+        [Fact]
+        public void Mnozenie_test()
+        {
+            string wynik = SprawdzanieOdpowiedzi.Mnozenie_odp(-3, 4);
+            Assert.Equal("-12", wynik);
+        }
+
+        [Fact]
+        public void Mnozenie_dodawanie_test()
+        {
+            
+            string wynik = SprawdzanieOdpowiedzi.Dodawanie_mnozenie_odp(2, 3, 4, 3);
+            Assert.Equal("10", wynik);
+        }
     }
 }
