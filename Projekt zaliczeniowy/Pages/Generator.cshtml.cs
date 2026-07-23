@@ -262,10 +262,20 @@ namespace Projekt_zaliczeniowy.Pages
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
+                
+                string pobrana_nazwa = User.FindFirstValue(ClaimTypes.Name);
+                string nazwa_uzytkownika;
+                if (pobrana_nazwa != null)
+                {
+                    nazwa_uzytkownika = pobrana_nazwa;
+                }
+                else
+                {
+                    nazwa_uzytkownika = "Gosc";
+                }
 
                 var rekord = _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
-
+                            
                 if (rekord != null)
                 {
                     najlepszy_wynik_uzytkownika = rekord.MaksymalnaSeria;
@@ -278,12 +288,19 @@ namespace Projekt_zaliczeniowy.Pages
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
+                string pobrana_nazwa = User.FindFirstValue(ClaimTypes.Name);
+                string nazwa_uzytkownika;
+                if (pobrana_nazwa != null)
+                {
+                    nazwa_uzytkownika = pobrana_nazwa;
+                }
+                else
+                {
+                    nazwa_uzytkownika = "Gosc";
+                }
 
-                var rekord_w_bazie = _context.Wyniki
-                    .Include(w => w.Uzytkownik)
-                    .FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
-
+                var rekord_w_bazie = _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
+                
                 if (rekord_w_bazie != null)
                 {
                     if (seria > rekord_w_bazie.MaksymalnaSeria)
@@ -312,11 +329,18 @@ namespace Projekt_zaliczeniowy.Pages
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                string nazwa_uzytkownika = User.FindFirstValue(ClaimTypes.Name) ?? "Gosc";
+                string pobrana_nazwa = User.FindFirstValue(ClaimTypes.Name);
+                string nazwa_uzytkownika;
+                if (pobrana_nazwa != null)
+                {
+                    nazwa_uzytkownika = pobrana_nazwa;
+                }
+                else
+                {
+                    nazwa_uzytkownika = "Gosc";
+                }
 
-                var rekord = _context.Wyniki
-                    .Include(w => w.Uzytkownik)
-                    .FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
+                var rekord = _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
 
                 if (rekord != null)
                 {
