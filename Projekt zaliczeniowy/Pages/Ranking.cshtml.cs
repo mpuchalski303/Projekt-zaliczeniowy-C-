@@ -16,10 +16,7 @@ namespace Projekt_zaliczeniowy.Pages
 
         public async Task OnGetAsync()
         {
-            ListaGraczy = await _context.Wyniki
-                .Include(w => w.Uzytkownik)
-                .OrderByDescending(w => w.MaksymalnaSeria)
-                .ToListAsync();
+            ListaGraczy = await _context.Wyniki.Include(w => w.Uzytkownik).OrderByDescending(w => w.MaksymalnaSeria).ToListAsync();
         }
     }
 }

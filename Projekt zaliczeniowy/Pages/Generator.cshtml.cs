@@ -45,44 +45,44 @@ namespace Projekt_zaliczeniowy.Pages
         public int gdzie_znak { get; set; }
         public string komunikat_zwrotny { get; set; } = string.Empty;
 
-        
 
 
-        public void OnGet()
+
+        public async Task OnGetAsync()
         {
             Losuj_Zadanie();
             seria = 0;
 
-            Wczytaj_Najlepszy_Wynik();
+            await Wczytaj_Najlepszy_Wynik();
         }
-        public void OnPost()
+        public async Task OnPostAsync()
         {
             if (typ_zadania == "ulamki2" || typ_zadania == "ulamki1")
             {
-                Zadanie_ulamki();
+                await Zadanie_ulamki();
             }
             else if (typ_zadania == "pierwiastki")
             {
-                Zadanie_pierwiastki();
+                await Zadanie_pierwiastki();
             }
             else if (typ_zadania == "potegi")
             {
-                Zadanie_potegi();
+                await Zadanie_potegi();
             }
             else if (typ_zadania == "mnozenie_calkowite")
             {
-                Zadanie_mnozenie_calkowite();
+                await Zadanie_mnozenie_calkowite();
             }
             else if (typ_zadania == "dodawanie_mnozenie_calkowite")
             {
-                Zadanie_dodawanie_mnozenie_calkowite();
+                await Zadanie_dodawanie_mnozenie_calkowite();
             }
 
 
             Losuj_Zadanie();
             ModelState.Clear();//zeby zapomniec o 5 2 3
 
-            Wczytaj_Najlepszy_Wynik();
+            await Wczytaj_Najlepszy_Wynik();
         }
         private void Losuj_Zadanie()
         {
@@ -151,7 +151,7 @@ namespace Projekt_zaliczeniowy.Pages
 
 
         }
-        private void Zadanie_ulamki()
+        private async Task Zadanie_ulamki()
         {
             string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Ulamki_odp(liczba1, liczba2, liczba3);
             //Console.WriteLine(odp1.ToString() + "/" + odp2.ToString());
@@ -159,20 +159,20 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
-                Zapisz_Probe(true);
+                await Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
-                Zapisz_Rekord();
-                Zapisz_Blad(typ_zadania);
-                Zapisz_Probe(false);
+                await Zapisz_Rekord();
+                await Zapisz_Blad(typ_zadania);
+                await Zapisz_Probe(false);
                 seria = 0;
 
             }
             odpowiedz_uzytkownika = "";
         }
-        private void Zadanie_pierwiastki()
+        private async Task Zadanie_pierwiastki()
         {
 
             string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Pierwiastki_odp(liczba4);
@@ -182,20 +182,20 @@ namespace Projekt_zaliczeniowy.Pages
             
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
-                Zapisz_Probe(true);
+                await Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
-                Zapisz_Rekord();
-                Zapisz_Blad(typ_zadania);
-                Zapisz_Probe(false);
+                await Zapisz_Rekord();
+                await Zapisz_Blad(typ_zadania);
+                await Zapisz_Probe(false);
                 seria = 0;
                 
             }
             odpowiedz_uzytkownika = "";
         }
-        private void Zadanie_potegi()
+        private async Task Zadanie_potegi()
         {
             string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Potegi_odp(liczba1, liczba2);
 
@@ -203,20 +203,20 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
-                Zapisz_Probe(true);
+                await Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
-                Zapisz_Rekord();
-                Zapisz_Blad(typ_zadania);
-                Zapisz_Probe(false);
+                await Zapisz_Rekord();
+                await Zapisz_Blad(typ_zadania);
+                await Zapisz_Probe(false);
                 seria = 0;
                 
             }
             odpowiedz_uzytkownika = "";
         }
-        private void Zadanie_mnozenie_calkowite()
+        private async Task Zadanie_mnozenie_calkowite()
         {
             string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Mnozenie_odp(liczba_calkowita1, liczba_calkowita2);
 
@@ -224,20 +224,20 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
-                Zapisz_Probe(true);
+                await Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
-                Zapisz_Rekord();
-                Zapisz_Blad(typ_zadania);
-                Zapisz_Probe(false);
+                await Zapisz_Rekord();
+                await Zapisz_Blad(typ_zadania);
+                await Zapisz_Probe(false);
                 seria = 0;
             }
             odpowiedz_uzytkownika = "";
         }
 
-        private void Zadanie_dodawanie_mnozenie_calkowite()
+        private async Task Zadanie_dodawanie_mnozenie_calkowite()
         {
             string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Dodawanie_mnozenie_odp(
                 liczba_calkowita1, liczba_calkowita2, liczba_calkowita3, gdzie_znak);
@@ -246,19 +246,19 @@ namespace Projekt_zaliczeniowy.Pages
             {
                 komunikat_zwrotny = "Dobrze";
                 seria += 1;
-                Zapisz_Probe(true);
+                await Zapisz_Probe(true);
             }
             else
             {
                 komunikat_zwrotny = "Źle";
-                Zapisz_Rekord();
-                Zapisz_Blad(typ_zadania);
-                Zapisz_Probe(false);
+                await Zapisz_Rekord();
+                await Zapisz_Blad(typ_zadania);
+                await Zapisz_Probe(false);
                 seria = 0;
             }
             odpowiedz_uzytkownika = "";
         }
-        private void Wczytaj_Najlepszy_Wynik()
+        private async Task Wczytaj_Najlepszy_Wynik()
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -274,8 +274,7 @@ namespace Projekt_zaliczeniowy.Pages
                     nazwa_uzytkownika = "Gosc";
                 }
 
-                var rekord = _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
-                            
+                var rekord = await _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefaultAsync(w => w.Uzytkownik.Login == nazwa_uzytkownika);
                 if (rekord != null)
                 {
                     najlepszy_wynik_uzytkownika = rekord.MaksymalnaSeria;
@@ -284,7 +283,7 @@ namespace Projekt_zaliczeniowy.Pages
         }
 
 
-        private void Zapisz_Rekord()
+        private async Task Zapisz_Rekord()
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -299,21 +298,21 @@ namespace Projekt_zaliczeniowy.Pages
                     nazwa_uzytkownika = "Gosc";
                 }
 
-                var rekord_w_bazie = _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
-                
+                var rekord_w_bazie = await _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefaultAsync(w => w.Uzytkownik.Login == nazwa_uzytkownika);
+
                 if (rekord_w_bazie != null)
                 {
                     if (seria > rekord_w_bazie.MaksymalnaSeria)
                     {
                         rekord_w_bazie.MaksymalnaSeria = seria;
                     }
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
         }
-        private void Zapisz_Blad(string typ_zadania)
+        private async Task Zapisz_Blad(string typ_zadania)
         {
-            var statystyka = _context.StatystykiBledow.FirstOrDefault(s => s.typ_zadania == typ_zadania);
+            var statystyka = await _context.StatystykiBledow.FirstOrDefaultAsync(s => s.typ_zadania == typ_zadania);
 
             if (statystyka == null)
             {
@@ -322,10 +321,10 @@ namespace Projekt_zaliczeniowy.Pages
             }
 
             statystyka.liczba_bledow += 1;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        private void Zapisz_Probe(bool poprawna)
+        private async Task Zapisz_Probe(bool poprawna)
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -340,7 +339,7 @@ namespace Projekt_zaliczeniowy.Pages
                     nazwa_uzytkownika = "Gosc";
                 }
 
-                var rekord = _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefault(w => w.Uzytkownik.Login == nazwa_uzytkownika);
+                var rekord = await _context.Wyniki.Include(w => w.Uzytkownik).FirstOrDefaultAsync(w => w.Uzytkownik.Login == nazwa_uzytkownika);
 
                 if (rekord != null)
                 {
@@ -351,7 +350,7 @@ namespace Projekt_zaliczeniowy.Pages
                         rekord.liczba_poprawnych += 1;
                     }
 
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
         }
