@@ -7,19 +7,19 @@
 <div class="container my-5" style="max-width: 700px;">
     <h2 class="mb-4">Dodaj konto ucznia</h2>
 
-    @if (!string.IsNullOrEmpty(Model.Komunikat))
+    @if (!string.IsNullOrEmpty(Model.komunikat))
     {
-        <div class="alert alert-info">@Model.Komunikat</div>
+        <div class="alert alert-info">@Model.komunikat</div>
     }
 
     <form method="post" class="mb-5">
         <div class="mb-3">
             <label class="form-label">Login ucznia</label>
-            <input type="text" asp-for="NowyLogin" class="form-control" required autocomplete="off" />
+            <input type="text" asp-for="nowy_login" class="form-control" required autocomplete="off" />
         </div>
         <div class="mb-3">
             <label class="form-label">Hasło</label>
-            <input type="text" asp-for="NoweHaslo" class="form-control" required autocomplete="off" />
+            <input type="text" asp-for="nowe_haslo" class="form-control" required autocomplete="off" />
         </div>
         <button type="submit" class="btn btn-primary">Dodaj konto</button>
     </form>

@@ -24,7 +24,7 @@ namespace Projekt_zaliczeniowy.Pages
         [BindProperty]
         public string Haslo { get; set; } = string.Empty;
 
-        public string BladLogowania { get; set; } = string.Empty;
+        public string blad_logowania { get; set; } = string.Empty;
 
         public void OnGet()
         {
@@ -55,7 +55,7 @@ namespace Projekt_zaliczeniowy.Pages
 
 
 
-            BladLogowania = "Niepoprawny login lub hasło!";
+            blad_logowania = "Niepoprawny login lub hasło!";
             return Page();
         }
 

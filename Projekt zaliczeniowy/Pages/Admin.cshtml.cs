@@ -18,43 +18,43 @@ namespace Projekt_zaliczeniowy.Pages
         }
 
         [BindProperty]
-        public string NowyLogin { get; set; } = string.Empty;
+        public string nowy_login { get; set; } = string.Empty;
 
         [BindProperty]
-        public string NoweHaslo { get; set; } = string.Empty;
+        public string nowe_haslo { get; set; } = string.Empty;
 
-        public string Komunikat { get; set; } = string.Empty;
+        public string komunikat { get; set; } = string.Empty;
 
         public List<Uzytkownik> Uczniowie { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (!await CzyZalogowanyJestAdminemAsync())
+            if (!await czy_zalogowany_admin_async())
             {
                 return RedirectToPage("/Index");
             }
 
-            await WczytajUczniowAsync();
+            await wczytaj_uczniow_async();
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!await CzyZalogowanyJestAdminemAsync())
+            if (!await czy_zalogowany_admin_async())
             {
                 return RedirectToPage("/Index");
             }
 
-            bool loginZajety = await _context.Uzytkownicy.AnyAsync(u => u.Login == NowyLogin);
+            bool loginZajety = await _context.Uzytkownicy.AnyAsync(u => u.Login == nowy_login);
 
             if (loginZajety)
             {
-                Komunikat = "Ten login jest już zajęty.";
+                komunikat = "Ten login jest już zajęty.";
             }
             else
             {
-                var nowyUzytkownik = new Uzytkownik { Login = NowyLogin };
-                nowyUzytkownik.HasloHash = _hasher.HashPassword(nowyUzytkownik, NoweHaslo);
+                var nowyUzytkownik = new Uzytkownik { Login = nowy_login };
+                nowyUzytkownik.HasloHash = _hasher.HashPassword(nowyUzytkownik, nowe_haslo);
 
                 _context.Uzytkownicy.Add(nowyUzytkownik);
                 await _context.SaveChangesAsync();
@@ -62,19 +62,19 @@ namespace Projekt_zaliczeniowy.Pages
                 _context.Wyniki.Add(new Wynik { UzytkownikId = nowyUzytkownik.Id, MaksymalnaSeria = 0 });
                 await _context.SaveChangesAsync();
 
-                Komunikat = $"Dodano konto ucznia: {NowyLogin}";
+                komunikat = $"Dodano konto ucznia: {nowy_login}";
             }
 
-            await WczytajUczniowAsync();
+            await wczytaj_uczniow_async();
             return Page();
         }
 
-        private async Task WczytajUczniowAsync()
+        private async Task wczytaj_uczniow_async()
         {
             Uczniowie = await _context.Uzytkownicy.Where(u => !u.CzyAdmin).ToListAsync();
         }
 
-        private async Task<bool> CzyZalogowanyJestAdminemAsync()
+        private async Task<bool> czy_zalogowany_admin_async()
         {
             string? login = User.Identity?.Name;
             if (login == null) return false;

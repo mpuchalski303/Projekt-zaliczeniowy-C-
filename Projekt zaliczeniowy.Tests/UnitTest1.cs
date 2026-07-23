@@ -6,23 +6,23 @@ namespace Projekt_zaliczeniowy.Tests
     public class SprawdzanieOdpowiedziTests
     {
         [Fact]
-        public void WyliczOdpowiedzUlamki_ZwracaPoprawnyString()
+        public void Ulamki_test()
         {
-            string wynik = SprawdzanieOdpowiedzi.WyliczOdpowiedzUlamki(3, 4, 5);
+            string wynik = SprawdzanieOdpowiedzi.Ulamki_odp(3, 4, 5);
             Assert.Equal("12/5", wynik);
         }
 
         [Fact]
-        public void WyliczOdpowiedzPierwiastki_ZwracaLiczbe4JakoString()
+        public void Pierwiastki_test()
         {
-            string wynik = SprawdzanieOdpowiedzi.WyliczOdpowiedzPierwiastki(7);
+            string wynik = SprawdzanieOdpowiedzi.Pierwiastki_odp(7);
             Assert.Equal("7", wynik);
         }
 
         [Fact]
-        public void WyliczOdpowiedzPotegi_ObliczaPoprawnyWynik()
+        public void Potegi_test()
         {
-            string wynik = SprawdzanieOdpowiedzi.WyliczOdpowiedzPotegi(2, 3);
+            string wynik = SprawdzanieOdpowiedzi.Potegi_odp(2, 3);
             Assert.Equal("8", wynik);
         }
     }

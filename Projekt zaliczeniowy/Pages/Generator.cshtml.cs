@@ -45,7 +45,7 @@ namespace Projekt_zaliczeniowy.Pages
             Losuj_Zadanie();
             seria = 0;
 
-            WczytajNajlepszyWynik();
+            Wczytaj_Najlepszy_Wynik();
         }
         public void OnPost()
         {
@@ -67,7 +67,7 @@ namespace Projekt_zaliczeniowy.Pages
             Losuj_Zadanie();
             ModelState.Clear();//zeby zapomniec o 5 2 3
 
-            WczytajNajlepszyWynik();
+            Wczytaj_Najlepszy_Wynik();
         }
         private void Losuj_Zadanie()
         {
@@ -117,7 +117,7 @@ namespace Projekt_zaliczeniowy.Pages
         }
         private void Zadanie_ulamki()
         {
-            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.WyliczOdpowiedzUlamki(liczba1, liczba2, liczba3);
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Ulamki_odp(liczba1, liczba2, liczba3);
             //Console.WriteLine(odp1.ToString() + "/" + odp2.ToString());
             if (odpowiedz_uzytkownika == poprawna_odpowiedz)
             {
@@ -127,7 +127,7 @@ namespace Projekt_zaliczeniowy.Pages
             else
             {
                 komunikat_zwrotny = "Źle";
-                SprawdzIZapiszRekord();
+                Zapisz_Rekord();
                 seria = 0;
 
             }
@@ -136,7 +136,7 @@ namespace Projekt_zaliczeniowy.Pages
         private void Zadanie_pierwiastki()
         {
 
-            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.WyliczOdpowiedzPierwiastki(liczba4);
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Pierwiastki_odp(liczba4);
             if (odpowiedz_uzytkownika == poprawna_odpowiedz)
             {
 
@@ -147,7 +147,7 @@ namespace Projekt_zaliczeniowy.Pages
             else
             {
                 komunikat_zwrotny = "Źle";
-                SprawdzIZapiszRekord();
+                Zapisz_Rekord();
                 seria = 0;
                 
             }
@@ -155,7 +155,7 @@ namespace Projekt_zaliczeniowy.Pages
         }
         private void Zadanie_potegi()
         {
-            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.WyliczOdpowiedzPotegi(liczba1, liczba2);
+            string poprawna_odpowiedz = SprawdzanieOdpowiedzi.Potegi_odp(liczba1, liczba2);
 
             if (odpowiedz_uzytkownika == poprawna_odpowiedz)
             {
@@ -165,13 +165,13 @@ namespace Projekt_zaliczeniowy.Pages
             else
             {
                 komunikat_zwrotny = "Źle";
-                SprawdzIZapiszRekord();
+                Zapisz_Rekord();
                 seria = 0;
                 
             }
             odpowiedz_uzytkownika = "";
         }
-        private void WczytajNajlepszyWynik()
+        private void Wczytaj_Najlepszy_Wynik()
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -187,7 +187,7 @@ namespace Projekt_zaliczeniowy.Pages
         }
 
 
-        private void SprawdzIZapiszRekord()
+        private void Zapisz_Rekord()
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
