@@ -31,7 +31,7 @@ namespace Projekt_zaliczeniowy
             var app = builder.Build();
 
 
-            using (var scope = app.Services.CreateScope()) //dodanie admina
+            using (var scope = app.Services.CreateScope()) //admin
             {
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
@@ -61,8 +61,8 @@ namespace Projekt_zaliczeniowy
 
             app.UseRouting();
 
-            app.UseAuthentication(); //sprawdzanie kim jest osoba logujaca 
-            app.UseAuthorization(); //sprawdzamy czy ma dostep
+            app.UseAuthentication();
+            app.UseAuthorization(); 
 
             
 
