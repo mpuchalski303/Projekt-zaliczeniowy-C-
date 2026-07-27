@@ -34,6 +34,7 @@ namespace Projekt_zaliczeniowy
             using (var scope = app.Services.CreateScope()) //admin
             {
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                context.Database.EnsureCreated();
 
                 if (!context.Uzytkownicy.Any())
                 {
