@@ -1,0 +1,18 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web_tutoring_app
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/baza.db
+    volumes:
+      - baza_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  baza_data:
